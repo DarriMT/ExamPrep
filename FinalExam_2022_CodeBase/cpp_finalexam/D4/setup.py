@@ -1,4 +1,21 @@
-from distutils.core import setup, Extension
+import pybind11
+import setuptools, sysconfig
 
-digit_module = Extension('digit_module',sources = ['digit_module.cpp'])
-setup(name = 'DigitModule',version='1.0',description = 'This is a dumb module',ext_modules = [digit_module])
+# put your module name here
+module_name = "digit_module"
+
+# put the names of the source files here
+module_files = [
+    "digit_module.cpp"
+]
+
+
+setuptools.setup(
+    name=module_name,
+    ext_modules=[setuptools.Extension(
+        module_name,
+        module_files,
+        include_dirs=[sysconfig.get_paths()['include'], pybind11.get_include()],
+        language="c++"
+    )],
+)

@@ -1,24 +1,41 @@
 #include <iostream>
+#include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
+#include <vector>
 
-#include "Python.h"
+using namespace std;
 
-PyObject* get_most_significant_digit_for_integers(PyObject *self, PyObject* args){
-    //TODO: Do something else :)
-    return args;
+int digit_count(int n) {
+    int cnt = 0;
+    while(n != 0) {
+        n/= 10;
+        cnt++;
+    }
+    return cnt;
 }
 
-static PyMethodDef mainMethods[] = {
- {"get_most_significant_digit_for_integers",get_most_significant_digit_for_integers,METH_VARARGS,"Return list with most significant digit for each integer in integers in the parameter list"},
- {NULL,NULL,0,NULL}
-};
+std::vector<int> get_digit_count_for_integers(std::vector<int> numbers) {
+    std::vector<int> counts;
 
-static PyModuleDef digit_module = {
- PyModuleDef_HEAD_INIT,
- "digit_module","Extension with operations for list lengths",
- -1,
- mainMethods
-};
+    for(auto n: numbers){
+        counts.push_back(digit_count(n));
+    }
+    return counts;
+}
 
-PyMODINIT_FUNC PyInit_digit_module(void){
-    return PyModule_Create(&digit_module);
+
+PYBIND11_MODULE(digit_module, m) {
+
+    // add functions like this
+    m.def(
+
+        // what the function should be called in the python module
+        "get_digit_count_for_integers", 
+
+        // pointer to your c++ function 
+        &get_digit_count_for_integers, 
+
+        // description of the function
+        "Get most significant digits"
+    );
 }
