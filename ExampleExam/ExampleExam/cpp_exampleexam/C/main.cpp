@@ -17,7 +17,7 @@ int main(){
     cout << "The sum of the integers is " << add(s1, s2) << endl;
     Addable add1(23, 0.45), add2(12, 0.3);
     cout << "Addable 1: " << add1 << endl;
-    cout << "Addable 2: " << add2 << endl;
+    cout << "Addable 2: " << add2 << endl; 
     cout << "The sum of the addables is " << add(add1, add2) << endl;
 
     auto addable_collection = Addable::add_and_return(3);
